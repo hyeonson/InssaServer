@@ -69,7 +69,7 @@ app.post('/signup', function (req, res){
   req.on('end', function(){
     console.log('user_id: ' + inputData.user_id);
     console.log('user_pw: ' + inputData.user_pw);
-    console.log('user_name: ' + iputData.user_name);
+    console.log('user_name: ' + inputData.user_name);
     console.log('user_age: ' + inputData.user_age);
     console.log('user_saying: ' + inputData.user_saying);
     console.log('user_major: ' + inputData.user_major); 
