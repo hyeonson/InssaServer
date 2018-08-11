@@ -96,9 +96,6 @@ app.post('/signup', function (req, res){
 });
 
 app.post('/login', function (req, res){
-  if(req.session.count){
-    re
-  }
   var inputData;
   
   req.on('data', function(data){
