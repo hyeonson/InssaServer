@@ -112,12 +112,11 @@ app.post('/login', function (req, res){
 
     User.findOne({user_id:user_id, user_pw:user_pw}, function(err, rawContent){
       if (err) {
-        throw err;
         res.write('999');
-      } else if(rawContent.length == 1){
-        res.write('111');
+      } else if(rawContent == null){
+        res.write('999');
       } else {
-        res.write('999');
+        res.write('111');
       }
       res.end();
     });
