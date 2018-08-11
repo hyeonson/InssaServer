@@ -60,13 +60,17 @@ app.get('/signup', function(req, res){
 });
 app.post('/signup', function (req, res){
   var inputData;
+  /*
   req.on('data', function(data){
     inputData = JSON.parse(data);
   });
+  */
+  /*
   req.on('end', function(){
     conole.log('noting here');
   });
-
+  */
+  inputData = JSON.parse(req);
   var user_id = inputData.user_id.toString();
   var user_pw = inputData.user_pw.toString();
   var user_name = inputData.user_name.toString();
