@@ -67,14 +67,14 @@ app.post('/signup', function (req, res){
     conole.log('noting here');
   });
 
-  var user_id = inputData.user_id;
-  var user_pw = inputData.user_pw;
-  var user_name = inputData.user_name;
-  var user_age = inputData.user_age;
-  var user_saying = inputData.user_saying;
-  var user_major = inputData.user_major;
-  var user_sex = inputData.user_sex;
-  var user_grade = inputData.user_grade;
+  var user_id = inputData.user_id.toString();
+  var user_pw = inputData.user_pw.toString();
+  var user_name = inputData.user_name.toString();
+  var user_age = inputData.user_age.toString();
+  var user_saying = inputData.user_saying.toString();
+  var user_major = inputData.user_major.toString();
+  var user_sex = inputData.user_sex.toString();
+  var user_grade = inputData.user_grade.toString();
 
   if(typeof(user_id) == 'undefined' || typeof(user_pw) == 'undefined' || typeof(user_name) == 'undefined' || typeof(user_age) == 'undefined'
   || typeof(user_saying) == 'undefined' || typeof(user_major) == 'undefined' || typeof(user_sex) == 'undefined' || typeof(user_grade) == 'undefined'){
