@@ -66,17 +66,20 @@ app.post('/signup', function (req, res){
   req.on('end', function(){
     conole.log('noting here');
   });
-  if(typeof(user_id) == 'undefined'){
+
+  var user_id = inputData.user_id;
+  var user_pw = inputData.user_pw;
+  var user_name = inputData.user_name;
+  var user_age = inputData.user_age;
+  var user_saying = inputData.user_saying;
+  var user_major = inputData.user_major;
+  var user_sex = inputData.user_sex;
+  var user_grade = inputData.user_grade;
+
+  if(typeof(user_id) == 'undefined' || typeof(user_pw) == 'undefined' || typeof(user_name) == 'undefined' || typeof(user_age) == 'undefined'
+  || typeof(user_saying) == 'undefined' || typeof(user_major) == 'undefined' || typeof(user_sex) == 'undefined' || typeof(user_grade) == 'undefined'){
     //err
   } else {
-    var user_id = inputData.user_id;
-    var user_pw = inputData.user_pw;
-    var user_name = inputData.user_name;
-    var user_age = inputData.user_age;
-    var user_saying = inputData.user_saying;
-    var user_major = inputData.user_major;
-    var user_sex = inputData.user_sex;
-    var user_grade = inputData.user_grade;
     var user = new User({user_id:user_id, user_pw:user_pw, user_nama:user_name, user_age:user_age, user_saying:user_saying,
     user_major:user_major, user_sex:user_sex, user_grade:user_grade})
 
