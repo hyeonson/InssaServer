@@ -94,30 +94,33 @@ app.post('/signup', function (req, res){
       res.end();
     });
   });
-/*
-  if(typeof(user_id2) == 'undefined' || typeof(user_pw2) == 'undefined' || typeof(user_name2) == 'undefined' || typeof(user_age2) == 'undefined'
-  || typeof(user_saying2) == 'undefined' || typeof(user_major2) == 'undefined' || typeof(user_sex2) == 'undefined' || typeof(user_grade2) == 'undefined'){
-    //err
-  } else {
-    
-    var user = new User({user_id:user_id2, user_pw:user_pw2, user_nama:user_name2, user_age:user_age2, user_saying:user_saying2,
-    user_major:user_major2, user_sex:user_sex2, user_grade:user_grade2})
+});
 
-    console.log('user_id: ' + user_id2);
-    console.log('user_pw: ' + user_pw2);
-    console.log('user_name: ' + user_name2);
-    console.log('user_age: ' + user_age2);
-    console.log('user_saying: ' + user_saying2);
-    console.log('user_major: ' + user_major2); 
-    console.log('user_sex: ' + user_sex2);
-    console.log('user_grade: ' + user_grade2);
-    user.save(function(err){
-      if (err) console.log(err);
+app.post('/login', function (req, res){
+  var inputData;
+  
+  req.on('data', function(data){
+    inputData = JSON.parse(data);
+  });
+  
+  req.on('end', function(){
+    console.log('login_id: ' + inputData.login_id);
+    console.log('login_pw: ' + inputData.login_pw);
+
+    var user_id = inputData.user_id;
+    var user_pw = inputData.user_pw;
+
+    User.findOne({user_id:user_id}, function(err, rawContent){
+      if (err) {
+        console.log(err);
+        res.write('999');
+      } else {
       res.write('111');
+      }
       res.end();
     });
-  }
-  */
+
+  });
 });
 
 //Express 서버 시작
