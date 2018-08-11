@@ -77,30 +77,30 @@ app.post('/signup', function (req, res){
     console.log('user_grade: ' + inputData.user_grade);
   });
   
-  var user_id = inputData.user_id.toString();
-  var user_pw = inputData.user_pw.toString();
-  var user_name = inputData.user_name.toString();
-  var user_age = inputData.user_age.toString();
-  var user_saying = inputData.user_saying.toString();
-  var user_major = inputData.user_major.toString();
-  var user_sex = inputData.user_sex.toString();
-  var user_grade = inputData.user_grade.toString();
+  var user_id2 = inputData.user_id;
+  var user_pw2 = inputData.user_pw;
+  var user_name2 = inputData.user_name;
+  var user_age2 = inputData.user_age;
+  var user_saying2 = inputData.user_saying;
+  var user_major2 = inputData.user_major;
+  var user_sex2 = inputData.user_sex;
+  var user_grade2 = inputData.user_grade;
 
-  if(typeof(user_id) == 'undefined' || typeof(user_pw) == 'undefined' || typeof(user_name) == 'undefined' || typeof(user_age) == 'undefined'
-  || typeof(user_saying) == 'undefined' || typeof(user_major) == 'undefined' || typeof(user_sex) == 'undefined' || typeof(user_grade) == 'undefined'){
+  if(typeof(user_id2) == 'undefined' || typeof(user_pw2) == 'undefined' || typeof(user_name2) == 'undefined' || typeof(user_age2) == 'undefined'
+  || typeof(user_saying2) == 'undefined' || typeof(user_major2) == 'undefined' || typeof(user_sex2) == 'undefined' || typeof(user_grade2) == 'undefined'){
     //err
   } else {
-    var user = new User({user_id:user_id, user_pw:user_pw, user_nama:user_name, user_age:user_age, user_saying:user_saying,
-    user_major:user_major, user_sex:user_sex, user_grade:user_grade})
+    var user = new User({user_id:user_id2, user_pw:user_pw2, user_nama:user_name2, user_age:user_age2, user_saying:user_saying2,
+    user_major:user_major2, user_sex:user_sex2, user_grade:user_grade2})
 
-    console.log('user_id: ' + user_id);
-    console.log('user_pw: ' + user_pw);
-    console.log('user_name: ' + user_name);
-    console.log('user_age: ' + user_age);
-    console.log('user_saying: ' + user_saying);
-    console.log('user_major: ' + user_major); 
-    console.log('user_sex: ' + user_sex);
-    console.log('user_grade: ' + user_grade);
+    console.log('user_id: ' + user_id2);
+    console.log('user_pw: ' + user_pw2);
+    console.log('user_name: ' + user_name2);
+    console.log('user_age: ' + user_age2);
+    console.log('user_saying: ' + user_saying2);
+    console.log('user_major: ' + user_major2); 
+    console.log('user_sex: ' + user_sex2);
+    console.log('user_grade: ' + user_grade2);
     user.save(function(err){
       if (err) console.log(err);
       res.write('111');
