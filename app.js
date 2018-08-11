@@ -62,8 +62,7 @@ app.post('/signup', function (req, res){
   var inputData;
   
   req.on('data', function(data){
-    var before = JSON.stringify(data);
-    inputData = JSON.parse(before);
+    inputData = JSON.parse(data);
   });
   
   
