@@ -66,16 +66,17 @@ app.post('/signup', function (req, res){
   req.on('end', function(){
     conole.log('noting here');
   });
-  var user_id = inputData.str_id;
-  var user_pw = inputData.str_pw;
-  var user_name = inputData.str_name;
-  var user_age = inputData.str_age;
-  var user_saying = inputData.str_saying;
-  var user_major = inputData.str_major;
-  var user_sex = inputData.str_sex;
-  var user_grade = inputData.str_grade;
+  var user_id = inputData.user_id;
+  var user_pw = inputData.user_pw;
+  var user_name = inputData.user_name;
+  var user_age = inputData.user_age;
+  var user_saying = inputData.user_saying;
+  var user_major = inputData.user_major;
+  var user_sex = inputData.user_sex;
+  var user_grade = inputData.user_grade;
   var user = new User({user_id:user_id, user_pw:user_pw, user_nama:user_name, user_age:user_age, user_saying:user_saying,
   user_major:user_major, user_sex:user_sex, user_grade:user_grade})
+
   console.log('user_id: ' + user_id);
   console.log('user_pw: ' + user_pw);
   console.log('user_name: ' + user_name);
