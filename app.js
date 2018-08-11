@@ -34,10 +34,10 @@ app.set('port', process.env.PORT || 3000);
 
 
 //body-parser를 사용해 application/x-www-form-urlencoded 파싱
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 
 //body-parser를 사용해 application/json 파싱
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 //app.use(static(path.join(__dirname, 'public')));
 //app.use(express.static(path.join(__dirname, 'public')));
@@ -60,17 +60,23 @@ app.get('/signup', function(req, res){
 });
 app.post('/signup', function (req, res){
   var inputData;
-  /*
+  
   req.on('data', function(data){
     inputData = JSON.parse(data);
   });
-  */
-  /*
+  
+  
   req.on('end', function(){
-    conole.log('noting here');
+    console.log('user_id: ' + inputData.user_id);
+    console.log('user_pw: ' + inputData.user_pw);
+    console.log('user_name: ' + iputData.user_name);
+    console.log('user_age: ' + inputData.user_age);
+    console.log('user_saying: ' + inputData.user_saying);
+    console.log('user_major: ' + inputData.user_major); 
+    console.log('user_sex: ' + inputData.user_sex);
+    console.log('user_grade: ' + inputData.user_grade);
   });
-  */
-  inputData = JSON.parse(req);
+  
   var user_id = inputData.user_id.toString();
   var user_pw = inputData.user_pw.toString();
   var user_name = inputData.user_name.toString();
