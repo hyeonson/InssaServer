@@ -150,7 +150,7 @@ app.post('/main', function (req, res){
         var user_mentee = rawContent.user_mentee;
         result['user_mentor'] = user_mentor;
         result['user_mentee'] = user_mentee;
-        res.write(result);
+        res.json(result);
       }
       res.end();
     });
