@@ -21,11 +21,15 @@ var userSchema = mongoose.Schema({
   user_id: String,
   user_pw: String,
   user_name: String,
-  user_age: String,
+  user_age: Number,
   user_saying: String,
   user_major: String,
   user_sex: String,
-  user_grade: String
+  user_grade: Integer,
+  user_loved: {type: String, default: ""},
+  user_matched: {type: String, default: ""},
+  user_mentor: {type: Number, default: 0},
+  user_mentee: {type: Number, default: 0}
 });
 var User = mongoose.model('User',userSchema);
 
