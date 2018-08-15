@@ -25,7 +25,7 @@ var userSchema = mongoose.Schema({
   user_saying: String,
   user_major: String,
   user_sex: String,
-  user_grade: Integer,
+  user_grade: Number,
   user_loved: {type: String, default: ""},
   user_matched: {type: String, default: ""},
   user_mentor: {type: Number, default: 0},
