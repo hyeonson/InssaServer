@@ -127,6 +127,37 @@ app.post('/login', function (req, res){
   });
 });
 
+app.post('/main', function (req, res){
+  var inputData;
+  
+  req.on('data', function(data){
+    inputData = JSON.parse(data);
+  });
+  
+  req.on('end', function(){
+    console.log('user_id: ' + inputData.user_id);
+
+    var user_id = inputData.user_id;
+
+    User.findOne({user_id:user_id}, function(err, rawContent){
+      if (err) {
+        res.write('999');
+      } else if(rawContent == null){
+        res.write('999');
+      } else {
+        var result = {};
+        var user_mentor = rawContent.user_mentor;
+        var user_mentee = rawContent.user_mentee;
+        result['user_mentor'] = user_mentor;
+        result['user_mentee'] = user_mentee;
+        res.write(result);
+      }
+      res.end();
+    });
+
+  });
+});
+
 //Express 서버 시작
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express 서버를 시작했습니다. : ' + app.get('port'));
