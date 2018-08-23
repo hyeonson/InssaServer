@@ -102,7 +102,7 @@ app.post('/signup', function (req, res){
     var user_sex = inputData.user_sex;
     var user_grade = inputData.user_grade;
 
-    var user = new User({user_id:user_id, user_pw:user_pw, user_nama:user_name, user_age:user_age, user_saying:user_saying,
+    var user = new User({user_id:user_id, user_pw:user_pw, user_name:user_name, user_age:user_age, user_saying:user_saying,
       user_major:user_major, user_sex:user_sex, user_grade:user_grade})
     
     user.save(function(err){
@@ -123,8 +123,15 @@ app.post('/signup_test', function (req, res){
   var user_major = req.user_major;
   var user_sex = req.user_sex;
   var user_grade = req.user_grade;
-
-  var user = new User({user_id:user_id, user_pw:user_pw, user_nama:user_name, user_age:user_age, user_saying:user_saying,
+  console.log('user_id: ' + req.user_id);
+  console.log('user_pw: ' + req.user_pw);
+  console.log('user_name: ' + req.user_name);
+  console.log('user_age: ' + req.user_age);
+  console.log('user_saying: ' + req.user_saying);
+  console.log('user_major: ' + req.user_major); 
+  console.log('user_sex: ' + req.user_sex);
+  console.log('user_grade: ' + req.user_grade);
+  var user = new User({user_id:user_id, user_pw:user_pw, user_name:user_name, user_age:user_age, user_saying:user_saying,
     user_major:user_major, user_sex:user_sex, user_grade:user_grade})
     
   user.save(function(err){
