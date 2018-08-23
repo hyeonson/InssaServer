@@ -115,21 +115,21 @@ app.post('/signup', function (req, res){
 
 
 app.post('/signup_test', function (req, res){
-  var user_id = req.body.user_id;
-  var user_pw = req.body.user_pw;
-  var user_name = req.body.user_name;
-  var user_age = req.body.user_age;
-  var user_saying = req.body.user_saying;
-  var user_major = req.body.user_major;
-  var user_sex = req.body.user_sex;
-  var user_grade = req.body.user_grade;
+  var user_id = req.user_id;
+  var user_pw = req.user_pw;
+  var user_name = req.user_name;
+  var user_age = req.user_age;
+  var user_saying = req.user_saying;
+  var user_major = req.user_major;
+  var user_sex = req.user_sex;
+  var user_grade = req.user_grade;
 
   var user = new User({user_id:user_id, user_pw:user_pw, user_nama:user_name, user_age:user_age, user_saying:user_saying,
     user_major:user_major, user_sex:user_sex, user_grade:user_grade})
     
   user.save(function(err){
     if (err) console.log(err);
-    res.json('111');
+    res.json(upload_result, '111');
     res.end();
   });
 });
@@ -155,7 +155,7 @@ app.post('/login', function (req, res){
       } else if(rawContent == null){
         res.write('999');
       } else {
-        res.write(upload_result, '111');
+        res.write('111');
       }
       res.end();
     });
