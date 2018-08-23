@@ -6,35 +6,18 @@ var path = require('path');
 
 var multer = require('multer');
 
-var upload = function (req, res) {
-  var deferred = Q.defer();
-  var storage = multer.diskStorage({
-    // 서버에 저장할 폴더
+var upload = multer({
+  storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, '/public/uploads/');
+      cb(null, 'uploads/');
     },
-
-    // 서버에 저장할 파일 명
     filename: function (req, file, cb) {
-      file.uploadedFile = {
-        name: req.body.user_id,
-        ext: file.mimetype.split('/')[1]
-      };
-      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-    }
-  });
-
-  var upload = multer({ storage: storage }).single('file');
-  upload(req, res, function (err) {
-    if (err) deferred.reject();
-    else deferred.resolve(req.file.uploadedFile);
-  });
-  return deferred.promise;
-};
+      cb(null, path.extname(file.originalname));
+    },
+  })
+});
 
 var app = express();
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
@@ -188,12 +171,8 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload', function(req, res){
-  upload(req, res).then(function (file) {
-    res.json({upload_result: '111'});
-  }, function (err) {
-    res.send(500, err);
-  });
+app.post('/imgUpload', upload.single('img'), function(req, res){
+    console.log(req.file);
 });
 //Express 서버 시작
 http.createServer(app).listen(app.get('port'), function () {
