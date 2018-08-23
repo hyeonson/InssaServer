@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 var multer = require('multer');
-var upload = multer({storage: storage});
 
 var upload = function (req, res) {
   var deferred = Q.defer();
