@@ -129,7 +129,9 @@ app.post('/signup_test', function (req, res){
     
   user.save(function(err){
     if (err) console.log(err);
-    res.json(upload_result, '111');
+    var result = {};
+    result['upload_result'] = '111';
+    res.json(result);
     res.end();
   });
 });
