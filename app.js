@@ -173,6 +173,7 @@ app.post('/main', function (req, res){
 
 app.post('/imgUpload', upload.single('img'), function(req, res){
     console.log(req.file);
+    res.json(upload_result, '111');
 });
 //Express 서버 시작
 http.createServer(app).listen(app.get('port'), function () {
