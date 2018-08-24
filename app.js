@@ -115,14 +115,14 @@ app.post('/signup', function (req, res){
 
 
 app.post('/signup_test', function (req, res){
-  var user_id = req.user_id;
-  var user_pw = req.user_pw;
-  var user_name = req.user_name;
-  var user_age = req.user_age;
-  var user_saying = req.user_saying;
-  var user_major = req.user_major;
-  var user_sex = req.user_sex;
-  var user_grade = req.user_grade;
+  var user_id = req.body.user_id;
+  var user_pw = req.body.user_pw;
+  var user_name = req.body.user_name;
+  var user_age = req.body.user_age;
+  var user_saying = req.body.user_saying;
+  var user_major = req.body.user_major;
+  var user_sex = req.body.user_sex;
+  var user_grade = req.body.user_grade;
   console.log('user_id: ' + req.user_id);
   console.log('user_pw: ' + req.user_pw);
   console.log('user_name: ' + req.user_name);
