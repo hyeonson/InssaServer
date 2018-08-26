@@ -206,6 +206,23 @@ app.post('/signup_test', function (req, res){
 
 
 app.post('/login', function (req, res){
+
+  var user_id = req.body.user_id;
+  var user_pw = req.body.user_pw;
+  console.log('user_id: ' + req.body.user_id);
+  console.log('user_pw: ' + req.body.user_pw);
+
+  User.findOne({user_id:user_id, user_pw:user_pw}, function(err, rawContent){
+    if (err) {
+      res.send('{"code":-1, "msg": "failed"}');
+    } else if(rawContent == null){
+      res.send('{"code":-1, "msg": "failed"}');
+    } else {
+      res.send('{"code":1, "msg": "successed"}');
+    }
+    res.end();
+  });
+  /*
   var inputData;
   
   req.on('data', function(data){
@@ -231,6 +248,7 @@ app.post('/login', function (req, res){
     });
 
   });
+  */
 });
 
 app.post('/main', function (req, res){
