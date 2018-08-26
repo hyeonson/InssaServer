@@ -8,18 +8,6 @@ var multer = require('multer');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
 
-var upload = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, path.extname(file.originalname));
-    }
-  })
-});
-
-
 /*
 var upload = function (req, res) {
   var deferred = Q.defer();
@@ -101,6 +89,17 @@ var upload = multer({storage:_storage});
 */
 var urlencoded = bodyParser.urlencoded({extended:false});
 app.use(urlencoded);
+
+var upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, path.extname(file.originalname));
+    }
+  })
+});
 //app.use(formidable(opts));
 
 //app.use(static(path.join(__dirname, 'public')));
