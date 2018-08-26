@@ -108,7 +108,7 @@ var upload = multer({
       };
       cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
       */
-      cb(null, file.originalname + path.extname(file.originalname));
+      cb(null, file.originalname);
     }
   })
 });
