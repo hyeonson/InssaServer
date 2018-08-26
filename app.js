@@ -297,12 +297,15 @@ app.post('numberSetting', function(req, res){
     } else if(rawContent == null){
       res.send('{"mentor":-1, "mentee":-1}');
     } else {
+      /*
       var result = {};
       var user_mentor = rawContent.user_mentor;
       var user_mentee = rawContent.user_mentee;
       result['user_mentor'] = user_mentor;
       result['user_mentee'] = user_mentee;
       res.json(result);
+      */
+      res.send('{"mentor":' + rawContent.user_mentor + ',' + '" mentee":' + rawContent.user_mentee + '}');
     }
     res.end();
   });
