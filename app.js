@@ -4,7 +4,8 @@ var static = require('serve-static');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-var multer = require('multer');
+//var multer = require('multer');
+var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
 /*
 var upload = multer({
@@ -18,7 +19,7 @@ var upload = multer({
   })
 });
 */
-
+/*
 var upload = function (req, res) {
   var deferred = Q.defer();
   var storage = multer.diskStorage({
@@ -46,7 +47,7 @@ var upload = function (req, res) {
   });
   return deferred.promise;
 };
-
+*/
 var app = express();
 
 var mongoose = require('mongoose');
@@ -85,6 +86,13 @@ app.set('port', process.env.PORT || 3000);
 //body-parser를 사용해 application/json 파싱
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
+//app.use(formidable(opts));
+app.use(formidable({
+  encoding: 'utf-8',
+  uploadDir: '/uploads',
+  multiples: true,
+}));
+
 //app.use(static(path.join(__dirname, 'public')));
 //app.use(express.static(path.join(__dirname, 'public')));
 //app.set('view engine', 'jade')
@@ -234,13 +242,40 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload/:filename', function(req, res, next){
-  upload(req, res).then(function (file) {
-    res.send('{"code":1, "msg": "successed"}');
-    console.log('이미지 전송 완료');
-  }, function (err) {
-    res.send('{"code":-1, "msg": "failed"}');
-    //res.send(500, err);
+app.post('/imgUpload', function(req, res, next){
+  console.log("Request upload!");
+  var name = "";
+  var filePath = "";
+  var form = new formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    name = fields.name;
+  });
+
+  form.on('end', function(fields, files) {
+    for (var i = 0; i < this.openedFiles.length; i++) {
+      var temp_path = this.openedFiles[i].path;
+      var file_name = this.openedFiles[i].name;
+      var index = file_name.indexOf('/'); 
+      var new_file_name = file_name.substring(index + 1);
+     
+      var new_location = 'uploads/'+name+'/';
+
+      fs.copy(temp_path, new_location + file_name, function(err) { // 이미지 파일 저장하는 부분임
+        if (err) {
+          console.error(err);
+
+          console.log("upload error!");
+        }
+        else{      
+          //res.setHeader('Content-Type', 'application/json');
+          //res.send(JSON.stringify({ result : "success", url : new_location+file_name }, null, 3));
+          res.send('{"code":1, "msg": "successed"}');
+
+          console.log("upload success!");
+        }
+      });
+    }
   });
 });
 
