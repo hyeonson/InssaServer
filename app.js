@@ -287,6 +287,27 @@ app.post('/imgUpload', upload.single('file'), function (req, res, next) {
   res.send('{"code":1, "msg": "successed"}');
 });
 
+app.post('numberSetting', function(req, res){
+  var user_id = req.body.user_id;
+  console.log('user_id: ' + req.body.user_id);
+
+  User.findOne({user_id:user_id}, function(err, rawContent){
+    if (err) {
+      res.send('{"mentor":-1, "mentee":-1}');
+    } else if(rawContent == null){
+      res.send('{"mentor":-1, "mentee":-1}');
+    } else {
+      var result = {};
+      var user_mentor = rawContent.user_mentor;
+      var user_mentee = rawContent.user_mentee;
+      result['user_mentor'] = user_mentor;
+      result['user_mentee'] = user_mentee;
+      res.json(result);
+    }
+    res.end();
+  });
+});
+
 //Express 서버 시작
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express 서버를 시작했습니다. : ' + app.get('port'));
