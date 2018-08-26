@@ -115,31 +115,32 @@ app.post('/signup', function (req, res){
 
 
 app.post('/signup_test', function (req, res){
-  var user_id = req.body.user_id;
-  var user_pw = req.body.user_pw;
-  var user_name = req.body.user_name;
-  var user_age = req.body.user_age;
-  var user_saying = req.body.user_saying;
-  var user_major = req.body.user_major;
-  var user_sex = req.body.user_sex;
-  var user_grade = req.body.user_grade;
-  console.log('user_id: ' + req.user_id);
-  console.log('user_pw: ' + req.user_pw);
-  console.log('user_name: ' + req.user_name);
-  console.log('user_age: ' + req.user_age);
-  console.log('user_saying: ' + req.user_saying);
-  console.log('user_major: ' + req.user_major); 
-  console.log('user_sex: ' + req.user_sex);
-  console.log('user_grade: ' + req.user_grade);
+  var user_id = req.body.user.user_id;
+  var user_pw = req.body.user.user_pw;
+  var user_name = req.body.user.user_name;
+  var user_age = req.body.user.user_age;
+  var user_saying = req.body.user.user_saying;
+  var user_major = req.body.user.user_major;
+  var user_sex = req.body.user.user_sex;
+  var user_grade = req.body.user.user_grade;
+  console.log('user_id: ' + req.user.user_id);
+  console.log('user_pw: ' + req.user.user.user_pw);
+  console.log('user_name: ' + req.user.user_name);
+  console.log('user_age: ' + req.user.user_age);
+  console.log('user_saying: ' + req.user.user_saying);
+  console.log('user_major: ' + req.user.user_major); 
+  console.log('user_sex: ' + req.user.user_sex);
+  console.log('user_grade: ' + req.user.user_grade);
   var user = new User({user_id:user_id, user_pw:user_pw, user_name:user_name, user_age:user_age, user_saying:user_saying,
     user_major:user_major, user_sex:user_sex, user_grade:user_grade})
     
   user.save(function(err){
     if (err) console.log(err);
-    var result = {};
-    result['upload_result'] = '111';
-    res.json(result);
-    res.end();
+    //var result = {};
+    //result['upload_result'] = '111';
+    //res.json(result);
+    //res.end();
+    res.send('{"code":1, "msg": "successed"}');
   });
 });
 
