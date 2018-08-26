@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 var multer = require('multer');
+//var upload = multer({ dest: 'uploads/'});
 /*
 var upload = multer({
   storage: multer.diskStorage({
@@ -28,14 +29,13 @@ var upload = function (req, res) {
 
     // 서버에 저장할 파일 명
     filename: function (req, file, cb) {
-      /*
+      
       file.uploadedFile = {
         name: req.params.filename,
         ext: file.mimetype.split('/')[1]
       };
-      */
-      //cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-      cb(null, path.extname(file.originalname));
+      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+      //cb(null, path.extname(file.originalname));
     }
   });
 
@@ -234,7 +234,7 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload', function(req, res, next){
+app.post('/imgUpload/:filename', function(req, res, next){
   upload(req, res).then(function (file) {
     res.send('{"code":1, "msg": "successed"}');
     console.log('이미지 전송 완료');
