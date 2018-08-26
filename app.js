@@ -5,17 +5,47 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 var multer = require('multer');
-
+/*
 var upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'upload/');
+      cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
       cb(null, path.extname(file.originalname));
-    },
+    }
   })
 });
+*/
+
+var upload = function (req, res) {
+  var deferred = Q.defer();
+  var storage = multer.diskStorage({
+    // 서버에 저장할 폴더
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+    },
+
+    // 서버에 저장할 파일 명
+    filename: function (req, file, cb) {
+      /*
+      file.uploadedFile = {
+        name: req.params.filename,
+        ext: file.mimetype.split('/')[1]
+      };
+      */
+      //cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+      cb(null, path.extname(file.originalname));
+    }
+  });
+
+  var upload = multer({ storage: storage }).single('file');
+  upload(req, res, function (err) {
+    if (err) deferred.reject();
+    else deferred.resolve(req.file.uploadedFile);
+  });
+  return deferred.promise;
+};
 
 var app = express();
 
@@ -54,7 +84,7 @@ app.set('port', process.env.PORT || 3000);
 //app.use(bodyParser.urlencoded({ extended: true }));
 //body-parser를 사용해 application/json 파싱
 app.use(bodyParser.json());
-
+app.use('/uploads', express.static('uploads'));
 //app.use(static(path.join(__dirname, 'public')));
 //app.use(express.static(path.join(__dirname, 'public')));
 //app.set('view engine', 'jade')
@@ -204,10 +234,15 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload', upload.single('img'), function(req, res){
-    console.log(req.file);
-    res.json(upload_result, '111');
+app.post('/imgUpload', function(req, res, next){
+  upload(req, res).then(function (file) {
+    res.send('{"code":1, "msg": "successed"}');
+  }, function (err) {
+    res.send('{"code":-1, "msg": "failed"}');
+    //res.send(500, err);
+  });
 });
+
 //Express 서버 시작
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express 서버를 시작했습니다. : ' + app.get('port'));
