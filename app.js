@@ -62,7 +62,8 @@ var userSchema = mongoose.Schema({
   user_loved: {type: String, default: ""},
   user_matched: {type: String, default: ""},
   user_mentor: {type: Number, default: 0},
-  user_mentee: {type: Number, default: 0}
+  user_mentee: {type: Number, default: 0},
+  user_img: {type: String, default: ""}
 });
 var User = mongoose.model('User',userSchema);
 
