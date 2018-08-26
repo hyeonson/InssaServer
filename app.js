@@ -123,14 +123,14 @@ app.post('/signup_test', function (req, res){
   var user_major = req.body.user_major;
   var user_sex = req.body.user_sex;
   var user_grade = req.body.user_grade;
-  console.log('user_id: ' + req.user_id);
-  console.log('user_pw: ' + req.user.user_pw);
-  console.log('user_name: ' + req.user_name);
-  console.log('user_age: ' + req.user_age);
-  console.log('user_saying: ' + req.user_saying);
-  console.log('user_major: ' + req.user_major); 
-  console.log('user_sex: ' + req.user_sex);
-  console.log('user_grade: ' + req.user_grade);
+  console.log('user_id: ' + req.body.user_id);
+  console.log('user_pw: ' + req.body.user_pw);
+  console.log('user_name: ' + req.body.user_name);
+  console.log('user_age: ' + req.body.user_age);
+  console.log('user_saying: ' + req.body.user_saying);
+  console.log('user_major: ' + req.body.user_major); 
+  console.log('user_sex: ' + req.body.user_sex);
+  console.log('user_grade: ' + req.body.user_grade);
   var user = new User({user_id:user_id, user_pw:user_pw, user_name:user_name, user_age:user_age, user_saying:user_saying,
     user_major:user_major, user_sex:user_sex, user_grade:user_grade})
     
