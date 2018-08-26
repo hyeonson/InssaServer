@@ -7,7 +7,7 @@ var path = require('path');
 var multer = require('multer');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
-/*이거 된거
+
 var upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -18,9 +18,9 @@ var upload = multer({
     }
   })
 });
-*/
 
 
+/*
 var upload = function (req, res) {
   var deferred = Q.defer();
   var storage = multer.diskStorage({
@@ -48,7 +48,7 @@ var upload = function (req, res) {
   });
   return deferred.promise;
 };
-
+*/
 var app = express();
 
 var mongoose = require('mongoose');
@@ -252,7 +252,7 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload/:fileName', upload.single('file'), function (req, res, next) {
+app.post('/imgUpload', upload.single('file'), function (req, res, next) {
   console.log(req.file);
   res.send('{"code":1, "msg": "successed"}');
 });
