@@ -53,7 +53,7 @@ app.set('port', process.env.PORT || 3000);
 //body-parser를 사용해 application/x-www-form-urlencoded 파싱
 //app.use(bodyParser.urlencoded({ extended: true }));
 //body-parser를 사용해 application/json 파싱
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 //app.use(static(path.join(__dirname, 'public')));
 //app.use(express.static(path.join(__dirname, 'public')));
