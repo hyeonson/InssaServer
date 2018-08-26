@@ -95,8 +95,19 @@ var upload = multer({
     destination: function (req, file, cb) {
       cb(null, 'uploads/');
     },
+    /*
     filename: function (req, file, cb) {
       cb(null, path.extname(file.originalname));
+    }
+    */
+    filename: function (req, file, cb) {
+      
+      file.uploadedFile = {
+        name: req.params.filename,
+        ext: file.mimetype.split('/')[1]
+      };
+      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+      //cb(null, path.extname(file.originalname));
     }
   })
 });
@@ -251,7 +262,7 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload', upload.single('file'), function (req, res, next) {
+app.post('/imgUpload/:filename', upload.single('file'), function (req, res, next) {
   console.log(req.file);
   res.send('{"code":1, "msg": "successed"}');
 });
