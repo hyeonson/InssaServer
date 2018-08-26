@@ -4,8 +4,8 @@ var static = require('serve-static');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-//var multer = require('multer');
-var formidable = require('express-formidable');
+var multer = require('multer');
+//var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
 /*
 var upload = multer({
@@ -86,12 +86,18 @@ app.set('port', process.env.PORT || 3000);
 //body-parser를 사용해 application/json 파싱
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
+var _storage = multer.diskStorage({
+  destination:(req, file, cb)=>{
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb)=>{
+    cb(null, file.originalname);
+  }
+});
+var upload = multer({storage:_storage});
+var urlencoded = bodyParser.urlencoded({extended:false});
+app.use(urlencoded);
 //app.use(formidable(opts));
-app.use(formidable({
-  encoding: 'utf-8',
-  uploadDir: '/uploads',
-  multiples: true,
-}));
 
 //app.use(static(path.join(__dirname, 'public')));
 //app.use(express.static(path.join(__dirname, 'public')));
@@ -242,41 +248,9 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload', function(req, res, next){
-  console.log("Request upload!");
-  var name = "";
-  var filePath = "";
-  var form = new formidable.IncomingForm();
-
-  form.parse(req, function(err, fields, files) {
-    name = fields.name;
-  });
-
-  form.on('end', function(fields, files) {
-    for (var i = 0; i < this.openedFiles.length; i++) {
-      var temp_path = this.openedFiles[i].path;
-      var file_name = this.openedFiles[i].name;
-      var index = file_name.indexOf('/'); 
-      var new_file_name = file_name.substring(index + 1);
-     
-      var new_location = 'uploads/'+name+'/';
-
-      fs.copy(temp_path, new_location + file_name, function(err) { // 이미지 파일 저장하는 부분임
-        if (err) {
-          console.error(err);
-
-          console.log("upload error!");
-        }
-        else{      
-          //res.setHeader('Content-Type', 'application/json');
-          //res.send(JSON.stringify({ result : "success", url : new_location+file_name }, null, 3));
-          res.send('{"code":1, "msg": "successed"}');
-
-          console.log("upload success!");
-        }
-      });
-    }
-  });
+app.post('/imgUpload', upload.single('image'), (req, res)=>{
+  console.log(req.file);
+  res.send('{"code":1, "msg": "successed"}');
 });
 
 //Express 서버 시작
