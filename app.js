@@ -305,7 +305,7 @@ app.post('/numberSetting', function(req, res){
       result['user_mentee'] = user_mentee;
       res.json(result);
       */
-      res.send('{"mentor":' + rawContent.user_mentor.toString() + ',' + '" mentee":' + rawContent.user_mentee.toString() + '}');
+      res.send('{"mentor":' + rawContent.user_mentor + ',' + '" mentee":' + rawContent.user_mentee + '}');
       //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
