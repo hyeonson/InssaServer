@@ -7,7 +7,7 @@ var path = require('path');
 var multer = require('multer');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
-/*
+
 var upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -18,7 +18,7 @@ var upload = multer({
     }
   })
 });
-*/
+
 /*
 var upload = function (req, res) {
   var deferred = Q.defer();
@@ -85,7 +85,9 @@ app.set('port', process.env.PORT || 3000);
 //app.use(bodyParser.urlencoded({ extended: true }));
 //body-parser를 사용해 application/json 파싱
 app.use(bodyParser.json());
+
 app.use('/uploads', express.static('uploads'));
+/*
 var _storage = multer.diskStorage({
   destination:(req, file, cb)=>{
     cb(null, 'uploads/');
@@ -95,6 +97,7 @@ var _storage = multer.diskStorage({
   }
 });
 var upload = multer({storage:_storage});
+*/
 var urlencoded = bodyParser.urlencoded({extended:false});
 app.use(urlencoded);
 //app.use(formidable(opts));
@@ -248,14 +251,9 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload', (req, res)=>{
-  upload(req, res, function(err) {
-    if (err) {
-      console.log('전송 에러');
-    }
-    console.log(req.file);
-    return res.send('{"code":1, "msg": "successed"}');
-  });
+app.post('/imgUpload', upload.single('file'), (req, res)=>{
+  console.log(req.file);
+  return res.send('{"code":1, "msg": "successed"}');
 });
 
 //Express 서버 시작
