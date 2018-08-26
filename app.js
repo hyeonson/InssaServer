@@ -287,7 +287,7 @@ app.post('/imgUpload', upload.single('file'), function (req, res, next) {
   res.send('{"code":1, "msg": "successed"}');
 });
 
-app.post('numberSetting', function(req, res){
+app.post('/numberSetting', function(req, res){
   var user_id = req.body.user_id;
   console.log('user_id: ' + req.body.user_id);
 
@@ -305,8 +305,8 @@ app.post('numberSetting', function(req, res){
       result['user_mentee'] = user_mentee;
       res.json(result);
       */
-      //res.send('{"mentor":' + rawContent.user_mentor.toString() + ',' + '" mentee":' + rawContent.user_mentee.toString() + '}');
-      res.send('{"mentor":-1, "mentee":-1}');
+      res.send('{"mentor":' + rawContent.user_mentor.toString() + ',' + '" mentee":' + rawContent.user_mentee.toString() + '}');
+      //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
   });
