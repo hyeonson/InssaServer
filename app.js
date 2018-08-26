@@ -251,9 +251,9 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload', upload.single('file'), (req, res)=>{
+app.post('/imgUpload', upload.single('file'), function (req, res, next) {
   console.log(req.file);
-  return res.send('{"code":1, "msg": "successed"}');
+  res.send('{"code":1, "msg": "successed"}');
 });
 
 //Express 서버 시작
