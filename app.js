@@ -237,6 +237,7 @@ app.post('/main', function (req, res){
 app.post('/imgUpload', function(req, res, next){
   upload(req, res).then(function (file) {
     res.send('{"code":1, "msg": "successed"}');
+    console.log('이미지 전송 완료');
   }, function (err) {
     res.send('{"code":-1, "msg": "failed"}');
     //res.send(500, err);
