@@ -3,40 +3,16 @@ var http = require('http');
 var static = require('serve-static');
 var bodyParser = require('body-parser');
 var path = require('path');
-
+var deffered = require('deffered');
+var promise = require('promise');
+var Q = require('Q');
 var multer = require('multer');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
 
-/*
-var upload = function (req, res) {
-  var deferred = Q.defer();
-  var storage = multer.diskStorage({
-    // 서버에 저장할 폴더
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-    },
 
-    // 서버에 저장할 파일 명
-    filename: function (req, file, cb) {
-      
-      file.uploadedFile = {
-        name: req.params.filename,
-        ext: file.mimetype.split('/')[1]
-      };
-      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-      //cb(null, path.extname(file.originalname));
-    }
-  });
 
-  var upload = multer({ storage: storage }).single('file');
-  upload(req, res, function (err) {
-    if (err) deferred.reject();
-    else deferred.resolve(req.file.uploadedFile);
-  });
-  return deferred.promise;
-};
-*/
+
 var app = express();
 
 var mongoose = require('mongoose');
@@ -91,6 +67,34 @@ var upload = multer({storage:_storage});
 var urlencoded = bodyParser.urlencoded({extended:true});
 app.use(urlencoded);
 
+var upload = function (req, res) {
+  var deferred = Q.defer();
+  var storage = multer.diskStorage({
+    // 서버에 저장할 폴더
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+    },
+
+    // 서버에 저장할 파일 명
+    filename: function (req, file, cb) {
+      
+      file.uploadedFile = {
+        name: req.params.filename,
+        ext: file.mimetype.split('/')[1]
+      };
+      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+      //cb(null, path.extname(file.originalname));
+    }
+  });
+
+  var upload = multer({ storage: storage }).single('file');
+  upload(req, res, function (err) {
+    if (err) deferred.reject();
+    else deferred.resolve(req.file.uploadedFile);
+  });
+  return deferred.promise;
+};
+/*
 var upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -100,14 +104,14 @@ var upload = multer({
     filename: function (req, file, cb) {
       cb(null, path.extname(file.originalname));
     }
-    */
+    
     filename: function (req, file, cb) {
-      /*
+      
       file.uploadedFile = {
         name: req.params.filename,
         ext: file.mimetype.split('/')[1]
       };
-      */
+      
       cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
       
       //cb(null, file.originalname);
@@ -115,6 +119,7 @@ var upload = multer({
     }
   })
 });
+*/
 //app.use(formidable(opts));
 
 //app.use(static(path.join(__dirname, 'public')));
@@ -283,10 +288,19 @@ app.post('/main', function (req, res){
 
   });
 });
-
+/*
 app.post('/imgUpload/:filename', upload.single('file'), function (req, res, next) {
   console.log(req.file);
   res.send('{"code":1, "msg": "successed"}');
+});
+*/
+app.post('/imgUpload/:filename', function (req, res, next) {
+  upload(req, res).then(function (file) {
+    res.send('{"code":1, "msg": "successed"}');
+  }, function (err) {
+    res.send('{"code":-1, "msg": "failed"}');
+  });
+  console.log(req.file);
 });
 
 app.post('/numberSetting', function(req, res){
