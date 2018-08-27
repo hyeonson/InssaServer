@@ -431,16 +431,15 @@ app.post('/likeYouList', function(req, res){
       res.send(userList);
     }
   });
-  app.post('/likeYouList2', function(req, res){
-    var user_id = req.body.user_id;
-    console.log('user_id: ' + req.body.user_id);
-  
-    User.findOne({user_id:user_id}, function(err, rawContent){
-      if (err) {
-        res.send('failed');
-      } else if(rawContent == null){
-        res.send('failed');
-      } else {
+app.post('/likeYouList2', function(req, res){
+  var user_id = req.body.user_id;
+  console.log('user_id: ' + req.body.user_id);
+  User.findOne({user_id:user_id}, function(err, rawContent){
+    if (err) {
+      res.send('failed');
+    } else if(rawContent == null){
+      res.send('failed');
+    } else {
         /*
         var result = {};
         var user_mentor = rawContent.user_mentor;
@@ -449,12 +448,12 @@ app.post('/likeYouList', function(req, res){
         result['user_mentee'] = user_mentee;
         res.json(result);
         */
-        res.send(rawContent);
+      res.send(rawContent);
         //res.send('{"mentor":-1, "mentee":-1}');
-      }
-      res.end();
-    });
+    }
+    res.end();
   });
+});
   /*
   var listSplit = userList.toString().split('$');
   for(var i in listSplit){
