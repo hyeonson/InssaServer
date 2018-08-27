@@ -103,7 +103,8 @@ var upload = multer({
       //cb(null, path.extname(file.originalname));
       file.uploadedFile = {
         name: req.params.filename,
-        ext: file.mimetype.split('/')[1]
+        //ext: file.mimetype.split('/')[1]
+        ext: file.originalname.split('.')[1]
       };
       cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
     }
