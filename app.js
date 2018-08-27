@@ -104,13 +104,13 @@ var upload = multer({
     filename: function (req, file, cb) {
       
       file.uploadedFile = {
-        name: req.body.filename,
+        name: req.params.filename,
         ext: file.mimetype.split('/')[1]
       };
       //cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
       
       //cb(null, file.originalname);
-      cb(null, req.params.filename + '.' + file.uploadedFile.ext);
+      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
     }
   })
 });
