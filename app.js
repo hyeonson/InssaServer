@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var deffered = require('deffered');
 var promise = require('promise');
-var q = require('q');
 var multer = require('multer');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
