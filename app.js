@@ -4,7 +4,8 @@ var static = require('serve-static');
 var bodyParser = require('body-parser');
 var path = require('path');
 var multer = require('multer');
-var split = require('express-split');
+//var split = require('express-split');
+var split = require('split');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
 
