@@ -4,7 +4,7 @@ var static = require('serve-static');
 var bodyParser = require('body-parser');
 var path = require('path');
 var multer = require('multer');
-var split = require('split');
+var split = require('express-split');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
 
@@ -438,12 +438,17 @@ app.post('/likeYouList', function(req, res){
       } else if(rawContent == null){
         res.send('failed');
       } else {
+
+        /*
         var User = {};
         User['user_id'] = rawContent.user_id;
         User['user_major'] = rawContent.user_major;
         User['user_grade'] = rawContent.user_grade;
         User['user_age'] = rawContent.user_age;
-        result.push(User);
+        */
+        //result.push(User);
+        result.push({user_id: rawContent.user_id, user_major: rawContent.user_major,
+        user_grade: rawContent.user_grade, user_age: rawContent.user_age});
       }
     });
   }
