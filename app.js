@@ -88,7 +88,7 @@ var _storage = multer.diskStorage({
 });
 var upload = multer({storage:_storage});
 */
-var urlencoded = bodyParser.urlencoded({extended:false});
+var urlencoded = bodyParser.urlencoded({extended:true});
 app.use(urlencoded);
 
 var upload = multer({
@@ -108,10 +108,10 @@ var upload = multer({
         ext: file.mimetype.split('/')[1]
       };
       */
-      //cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
       
       //cb(null, file.originalname);
-      cb(null, file.params.filename + '.jpg');
+      //cb(null, file.params.filename + '.jpg');
     }
   })
 });
