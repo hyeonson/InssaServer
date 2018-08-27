@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var multer = require('multer');
 //var split = require('express-split');
-var split = require('split');
+var jwt = require('jwt');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
 
