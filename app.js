@@ -389,6 +389,20 @@ app.post('/showProfile', function(req, res){
   });
 });
 
+app.post('/likeYou', function(req, res){
+  var loved_id = req.body.loved_id;
+  var loving_id = req.body.loving_id;
+  console.log('loved_id: ' + req.body.loved_id);
+  console.log('loved_id: ' + req.body.loving_id);
+
+  User.update({user_id: loved_id}, {$set: {user_loved: user_loved + loving_id +'$'}}, function(err, output){
+    if(err) res.send('{"code":-1, "msg": "failed"}');
+    console.log(output);
+    if(!output.n) res.send('{"code":-1, "msg": "failed"}');
+  });
+  res.send('{"code":1, "msg": "successed"}');
+});
+
 //Express 서버 시작
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express 서버를 시작했습니다. : ' + app.get('port'));
