@@ -426,11 +426,12 @@ app.post('/likeYouList', function(req, res){
     } else if(rawContent == null){
       res.send('failed');
     } else {
-      userList = rawContent.user_loved;
-      console.log('userList: ' + userList);
-      res.send(userList);
+    userList = rawContent.user_loved;
+    console.log('userList: ' + userList);
+    res.send(userList);
     }
   });
+});
 app.post('/likeYouList2', function(req, res){
   var user_id = req.body.user_id;
   console.log('user_id: ' + req.body.user_id);
