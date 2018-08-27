@@ -3,8 +3,6 @@ var http = require('http');
 var static = require('serve-static');
 var bodyParser = require('body-parser');
 var path = require('path');
-var deffered = require('deffered');
-var promise = require('promise');
 var multer = require('multer');
 //var formidable = require('express-formidable');
 //var upload = multer({ dest: 'uploads/'});
@@ -63,9 +61,9 @@ var _storage = multer.diskStorage({
 });
 var upload = multer({storage:_storage});
 */
-var urlencoded = bodyParser.urlencoded({extended:true});
+var urlencoded = bodyParser.urlencoded({extended:false});
 app.use(urlencoded);
-
+/*
 var upload = function (req, res) {
   var deferred = Q.defer();
   var storage = multer.diskStorage({
@@ -93,17 +91,19 @@ var upload = function (req, res) {
   });
   return deferred.promise;
 };
-/*
+*/
+
 var upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'uploads/');
     },
-    /*
-    filename: function (req, file, cb) {
-      cb(null, path.extname(file.originalname));
-    }
     
+    filename: function (req, file, cb) {
+      //cb(null, path.extname(file.originalname));
+      cb(null, file.originalname);
+    }
+    /*
     filename: function (req, file, cb) {
       
       file.uploadedFile = {
@@ -113,12 +113,12 @@ var upload = multer({
       
       cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
       
-      //cb(null, file.originalname);
       //cb(null, file.params.filename + '.jpg');
     }
+    */
   })
 });
-*/
+
 //app.use(formidable(opts));
 
 //app.use(static(path.join(__dirname, 'public')));
@@ -287,12 +287,13 @@ app.post('/main', function (req, res){
 
   });
 });
-/*
-app.post('/imgUpload/:filename', upload.single('file'), function (req, res, next) {
+
+app.post('/imgUpload', upload.single('file'), function (req, res, next) {
   console.log(req.file);
   res.send('{"code":1, "msg": "successed"}');
 });
-*/
+
+/*
 app.post('/imgUpload/:filename', function (req, res, next) {
   upload(req, res).then(function (file) {
     res.send('{"code":1, "msg": "successed"}');
@@ -301,7 +302,7 @@ app.post('/imgUpload/:filename', function (req, res, next) {
   });
   console.log(req.file);
 });
-
+*/
 app.post('/numberSetting', function(req, res){
   var user_id = req.body.user_id;
   console.log('user_id: ' + req.body.user_id);
