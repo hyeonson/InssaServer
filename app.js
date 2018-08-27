@@ -414,6 +414,41 @@ app.post('/likeYou', function(req, res){
   });
 });
 
+app.post('/likeYouList', function(req, res){
+  var user_id = req.body.user_id;
+  var result = {};
+  console.log('user_id: ' + req.body.user_id);
+
+  User.findOne({user_id:user_id}, function(err, rawContent){
+    if (err) {
+      res.send('failed');
+    } else if(rawContent == null){
+      res.send('failed');
+    } else {
+      var userList = rawContent.user_loved;
+      var listSplit = userList.split('$');
+      for(var i in listSplit){
+        User.findOne({user_id:listSplit}, function(err, rawContent2){
+          if (err) {
+            res.send('failed');
+          } else if(rawContent == null){
+            res.send('failed');
+          } else {
+            var User = {};
+            User['user_id'] = rawContent2.user_id;
+            User['user_major'] = rawContent2.user_major;
+            User['user_grade'] = rawContent2.user_grade;
+            User['user_age'] = rawContent2.user_age;
+            result['User'] = User;
+          }
+        });
+      }
+      res.send(result);
+    }
+    res.end();
+  });
+});
+
 //Express 서버 시작
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express 서버를 시작했습니다. : ' + app.get('port'));
