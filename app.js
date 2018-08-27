@@ -431,7 +431,7 @@ app.post('/likeYouList', function(req, res){
       userList = rawContent.user_loved;
     }
   });
-  var listSplit = userList.split("$");
+  var listSplit = userList.value.split("$");
   for(var i in listSplit){
     User.findOne({user_id:listSplit[i]}, function(err, rawContent){
       if (err) {
