@@ -416,7 +416,7 @@ app.post('/likeYou', function(req, res){
 
 app.post('/likeYouList', function(req, res){
   var user_id = req.body.user_id;
-  var result = {};
+  var result = [];
   console.log('user_id: ' + req.body.user_id);
 
   User.findOne({user_id:user_id}, function(err, rawContent){
@@ -439,7 +439,7 @@ app.post('/likeYouList', function(req, res){
             User['user_major'] = rawContent2.user_major;
             User['user_grade'] = rawContent2.user_grade;
             User['user_age'] = rawContent2.user_age;
-            result['User'] = User;
+            result.push(User);
           }
         });
       }
