@@ -418,10 +418,8 @@ app.post('/likeYou', function(req, res){
 
 app.post('/likeYouList', function(req, res){
   var user_id = req.body.user_id;
-  var userList;
-  var result = [];
   console.log('user_id: ' + req.body.user_id);
-
+  var userList;
   User.findOne({user_id:user_id}, function(err, rawContent){
     if (err) {
       res.send('failed');
@@ -430,8 +428,34 @@ app.post('/likeYouList', function(req, res){
     } else {
       userList = rawContent.user_loved;
       console.log('userList: ' + userList);
+      res.send(userList);
     }
   });
+  app.post('/likeYouList2', function(req, res){
+    var user_id = req.body.user_id;
+    console.log('user_id: ' + req.body.user_id);
+  
+    User.findOne({user_id:user_id}, function(err, rawContent){
+      if (err) {
+        res.send('failed');
+      } else if(rawContent == null){
+        res.send('failed');
+      } else {
+        /*
+        var result = {};
+        var user_mentor = rawContent.user_mentor;
+        var user_mentee = rawContent.user_mentee;
+        result['user_mentor'] = user_mentor;
+        result['user_mentee'] = user_mentee;
+        res.json(result);
+        */
+        res.send(rawContent);
+        //res.send('{"mentor":-1, "mentee":-1}');
+      }
+      res.end();
+    });
+  });
+  /*
   var listSplit = userList.toString().split('$');
   for(var i in listSplit){
     User.findOne({user_id:listSplit[i]}, function(err, rawContent){
@@ -441,20 +465,22 @@ app.post('/likeYouList', function(req, res){
         res.send('failed');
       } else {
 
-        /*
+        
         var User = {};
         User['user_id'] = rawContent.user_id;
         User['user_major'] = rawContent.user_major;
         User['user_grade'] = rawContent.user_grade;
         User['user_age'] = rawContent.user_age;
-        */
+        
         //result.push(User);
+        
         result.push({user_id: rawContent.user_id, user_major: rawContent.user_major,
         user_grade: rawContent.user_grade, user_age: rawContent.user_age});
+        
       }
     });
   }
-  res.send(result);
+  */
   res.end();
 });
 
