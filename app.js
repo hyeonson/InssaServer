@@ -432,7 +432,7 @@ app.post('/likeYouList', function(req, res){
       console.log('userList: ' + userList);
     }
   });
-  var listSplit = userList.split('$');
+  var listSplit = userList.toString().split('$');
   for(var i in listSplit){
     User.findOne({user_id:listSplit[i]}, function(err, rawContent){
       if (err) {
