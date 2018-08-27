@@ -36,7 +36,8 @@ var userSchema = mongoose.Schema({
   user_matched: {type: String, default: ""},
   user_mentor: {type: Number, default: 0},
   user_mentee: {type: Number, default: 0},
-  user_img: {type: String, default: "who.jpg"}
+  user_img: {type: String, default: "who.jpg"},
+  user_socket: {type: String, default: ""}
 });
 var User = mongoose.model('User',userSchema);
 
@@ -124,6 +125,7 @@ var upload = multer({
     }
     */
   })
+  
 });
 
 //app.use(formidable(opts));
@@ -154,8 +156,7 @@ app.post('/signup', function (req, res){
   req.on('data', function(data){
     inputData = JSON.parse(data);
   });
-  
-  
+
   req.on('end', function(){
     console.log('user_id: ' + inputData.user_id);
     console.log('user_pw: ' + inputData.user_pw);
@@ -335,6 +336,28 @@ app.post('/numberSetting', function(req, res){
       res.json(result);
       */
       res.send('{"mentor":' + rawContent.user_mentor + ',' + '" mentee":' + rawContent.user_mentee + '}');
+      //res.send('{"mentor":-1, "mentee":-1}');
+    }
+    res.end();
+  });
+});
+
+app.post('/allProfile', function(req, res){
+  User.find({}, function(err, rawContent){
+    if (err) {
+      res.send('failed');
+    } else if(rawContent == null){
+      res.send('failed');
+    } else {
+      /*
+      var result = {};
+      var user_mentor = rawContent.user_mentor;
+      var user_mentee = rawContent.user_mentee;
+      result['user_mentor'] = user_mentor;
+      result['user_mentee'] = user_mentee;
+      res.json(result);
+      */
+      res.send(rawContent);
       //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
