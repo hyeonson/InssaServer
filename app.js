@@ -428,7 +428,7 @@ app.post('/likeYouList', function(req, res){
     } else {
     userList = rawContent.user_loved;
     console.log('userList: ' + userList);
-    res.send('{"list_id":' + userList + '}');
+    res.send('{"list_id":' + '"' + userList + '"' + '}');
     }
   });
 });
