@@ -428,7 +428,7 @@ app.post('/likeYouList', function(req, res){
       var userList = rawContent.user_loved;
       var listSplit = userList.split('$');
       for(var i in listSplit){
-        User.findOne({user_id:listSplit}, function(err, rawContent2){
+        User.findOne({user_id:listSplit[i]}, function(err, rawContent2){
           if (err) {
             res.send('failed');
           } else if(rawContent == null){
