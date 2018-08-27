@@ -453,8 +453,6 @@ app.post('/likeYouList2', function(req, res){
         //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
-  });
-});
   /*
   var listSplit = userList.toString().split('$');
   for(var i in listSplit){
@@ -481,7 +479,7 @@ app.post('/likeYouList2', function(req, res){
     });
   }
   */
-  res.end();
+  });
 });
 
 //Express 서버 시작
