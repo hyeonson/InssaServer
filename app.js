@@ -36,7 +36,7 @@ var userSchema = mongoose.Schema({
   user_matched: {type: String, default: ""},
   user_mentor: {type: Number, default: 0},
   user_mentee: {type: Number, default: 0},
-  user_img: {type: String, default: ""}
+  user_img: {type: String, default: "who.jpg"}
 });
 var User = mongoose.model('User',userSchema);
 
@@ -100,13 +100,15 @@ var upload = multer({
     },
     
     filename: function (req, file, cb) {
-      //cb(null, path.extname(file.originalname));
+      cb(null, file.originalname);
+      /*
       file.uploadedFile = {
-        name: req.params.filename,
+        //name: req.params.filename,
         //ext: file.mimetype.split('/')[1]
-        ext: file.originalname.split('.')[1]
+        //ext: file.originalname.split('.')[1]
       };
-      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+      */
+      //cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
     }
     /*
     filename: function (req, file, cb) {
@@ -293,8 +295,14 @@ app.post('/main', function (req, res){
   });
 });
 
-app.post('/imgUpload/:filename', upload.single('file'), function (req, res, next) {
+app.post('/imgUpload/:userID', upload.single('file'), function (req, res, next) {
   console.log(req.file);
+  var user_id = req.params.userID;
+  User.update({user_id: user_id}, {$set: {user_img: req.file.originalname}}, function(err, output){
+    if(err) res.send('{"code":-1, "msg": "failed"}');
+    console.log(output);
+    if(!output.n) res.send('{"code":-1, "msg": "failed"}');
+  });
   res.send('{"code":1, "msg": "successed"}');
 });
 
