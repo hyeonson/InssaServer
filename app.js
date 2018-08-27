@@ -429,9 +429,10 @@ app.post('/likeYouList', function(req, res){
       res.send('failed');
     } else {
       userList = rawContent.user_loved;
+      console.log('userList: ' + userList);
     }
   });
-  var listSplit = userList.value.split("$");
+  var listSplit = userList.split('$');
   for(var i in listSplit){
     User.findOne({user_id:listSplit[i]}, function(err, rawContent){
       if (err) {
