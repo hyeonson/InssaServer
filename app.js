@@ -12,7 +12,7 @@ var socketio = require('socket.io');
 
 
 
-
+var connect={};
 var app = express();
 
 var mongoose = require('mongoose');
