@@ -421,8 +421,8 @@ app.post('/likeYou2', function(req, res){
   var loving_id = req.body.loving_id;
   var save_user_matched;
   var save_user_matched2;
-  console.log('loving_id: ' + req.body.loved_id);
-  console.log('loved_id: ' + req.body.loving_id);
+  console.log('loving_id: ' + req.body.loving_id);
+  console.log('loved_id: ' + req.body.loved_id);
 
   User.findOne({user_id:loved_id}, function(err, rawContent){
     if (err) {
