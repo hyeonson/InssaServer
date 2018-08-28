@@ -416,6 +416,48 @@ app.post('/likeYou', function(req, res){
   });
 });
 
+app.post('/likeYou2', function(req, res){
+  var loved_id = req.body.loved_id;
+  var loving_id = req.body.loving_id;
+  var save_user_matched;
+  var save_user_matched2;
+  console.log('loving_id: ' + req.body.loved_id);
+  console.log('loved_id: ' + req.body.loving_id);
+
+  User.findOne({user_id:loved_id}, function(err, rawContent){
+    if (err) {
+      res.send('{"code":-1, "msg": "failed"}');
+    } else if(rawContent == null){
+      res.send('{"code":-1, "msg": "failed"}');
+    } else {
+      save_user_matched = rawContent.user_matched;
+      User.update({user_id: loved_id}, {$set: {user_matched: save_user_matched + loving_id +'$'}}, function(err, output){
+        if(err) res.send('{"code":-1, "msg": "failed"}');
+        console.log(output);
+        if(!output.n) res.send('{"code":-1, "msg": "failed"}');
+      });
+      //res.send('{"code":1, "msg": "successed"}');
+    }
+    //res.end();
+  });
+  User.findOne({user_id:loving_id}, function(err, rawContent){
+    if (err) {
+      res.send('{"code":-1, "msg": "failed"}');
+    } else if(rawContent == null){
+      res.send('{"code":-1, "msg": "failed"}');
+    } else {
+      save_user_matched2 = rawContent.user_matched;
+      User.update({user_id: loving_id}, {$set: {user_matched: save_user_matched2 + loved_id +'$'}}, function(err, output){
+        if(err) res.send('{"code":-1, "msg": "failed"}');
+        console.log(output);
+        if(!output.n) res.send('{"code":-1, "msg": "failed"}');
+      });
+      res.send('{"code":1, "msg": "successed"}');
+    }
+    res.end();
+  });
+});
+
 app.post('/likeYouList', function(req, res){
   var user_id = req.body.user_id;
   console.log('user_id: ' + req.body.user_id);
