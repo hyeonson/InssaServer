@@ -4,6 +4,7 @@ var static = require('serve-static');
 var bodyParser = require('body-parser');
 var path = require('path');
 var multer = require('multer');
+var socketio = require('socket.io');
 //var split = require('express-split');
 //var jwt = require('jwt');
 //var formidable = require('express-formidable');
@@ -43,58 +44,21 @@ var userSchema = mongoose.Schema({
 });
 var User = mongoose.model('User',userSchema);
 
+var ChatSchema = mongoose.Schema({
+  room_number: { type: String, required: true, unique: true },
+  sender_id: [{ type: String }],
+  listener_id: [{ type: String }],
+  message: [{ type: String }],
+  date: [{ type: Date }]
+});
+var chat = mongoose.model('chat', ChatSchema);
+
 //기본포트를 app 객체에 속성으로 설정
 app.set('port', process.env.PORT || 3000);
 
-
-//body-parser를 사용해 application/x-www-form-urlencoded 파싱
-//app.use(bodyParser.urlencoded({ extended: true }));
-//body-parser를 사용해 application/json 파싱
 app.use(bodyParser.json());
 
 app.use('/uploads', express.static('uploads'));
-/*
-var _storage = multer.diskStorage({
-  destination:(req, file, cb)=>{
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb)=>{
-    cb(null, file.originalname);
-  }
-});
-var upload = multer({storage:_storage});
-*/
-var urlencoded = bodyParser.urlencoded({extended:false});
-app.use(urlencoded);
-/*
-var upload = function (req, res) {
-  var deferred = Q.defer();
-  var storage = multer.diskStorage({
-    // 서버에 저장할 폴더
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-    },
-
-    // 서버에 저장할 파일 명
-    filename: function (req, file, cb) {
-      
-      file.uploadedFile = {
-        name: req.params.filename,
-        ext: file.mimetype.split('/')[1]
-      };
-      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-      //cb(null, path.extname(file.originalname));
-    }
-  });
-
-  var upload = multer({ storage: storage }).single('file');
-  upload(req, res, function (err) {
-    if (err) deferred.reject();
-    else deferred.resolve(req.file.uploadedFile);
-  });
-  return deferred.promise;
-};
-*/
 
 var upload = multer({
   storage: multer.diskStorage({
@@ -600,7 +564,69 @@ app.post('/getlm', function(req, res){
   });
 });
 
+
+
 //Express 서버 시작
-http.createServer(app).listen(app.get('port'), function () {
+var server = http.createServer(app).listen(app.get('port'), function () {
   console.log('Express 서버를 시작했습니다. : ' + app.get('port'));
+});
+
+var io = socketio.listen(server);
+io.sockets.on('connection', function (socket) {
+    console.log('socket연결됨');
+
+    socket.on('socket_id', function (data) {
+        connect[data] = socket.id;
+        socket.user_id=data;
+        console.log(socket.id);
+    });
+    socket.on('loadChat', function (data) {
+        var splitted=data.split(':');
+        var user1=splitted[0];
+        var user2=splitted[1];
+        chat.find(function (err, result) {
+            if (result.length > 0) {
+                var object
+                for (var i = 0; i < result[0].message.length; i++) {
+                    if (result[0].sender_id[i] == socket.user_id) {
+                        object = { "name": "나", "message": result[0].message[i] };
+                        socket.emit('message', object);
+                    }
+                    else {
+                        object = { "name": "상대", "message": result[0].message[i] };
+                        socket.emit('message', object);
+                    }
+                }
+            }else{
+                var new_chat=new chat({
+                    "room_number":data
+                });
+                new_chat.save(function(err){
+                    console.log(data+" 방 생성 완료");
+                });
+            }
+        }).or([{ "room_number": user1+ ":" + user2 }, { "room_number": user2 + ":" + user1 }]);
+    });
+    socket.on('message', function (data) {
+        chat.find(function (err, result) {
+            if (result.length > 0) {
+                var sender = result[0].sender_id;
+                sender[sender.length] = data.sender_id;
+                var listener = result[0].listener_id;
+                listener[listener.length] = data.listener_id;
+                var message = result[0].message;
+                message[message.length] = data.message;
+                var date = result[0].date;
+                date[date.length] = Date.now();
+                chat.where({ "room_number": result[0].room_number }).update({ "sender_id": sender, "listener_id": listener, "message": message, "date": date }, function () { });
+            } else {
+                console.log("방이 없음");
+            }
+        }).or([{ "room_number": data.sender_id + ":" + data.listener_id }, { "room_number": data.listener_id + ":" + data.sender_id }]);
+        io.to(connect[data.sender_id]).emit('message', { name: "나", message: data.message });
+        io.to(connect[data.listener_id]).emit('message', { name: data.sender_id, message: data.message });
+    });
+});
+io.sockets.on('disconnection', function () {
+    console.log('socket연결이 해제됨.');
 });
