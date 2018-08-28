@@ -5,12 +5,6 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var multer = require('multer');
 var socketio = require('socket.io');
-//var split = require('express-split');
-//var jwt = require('jwt');
-//var formidable = require('express-formidable');
-//var upload = multer({ dest: 'uploads/'});
-
-
 
 var connect={};
 var app = express();
@@ -53,7 +47,6 @@ var ChatSchema = mongoose.Schema({
 });
 var chat = mongoose.model('chat', ChatSchema);
 
-//기본포트를 app 객체에 속성으로 설정
 app.set('port', process.env.PORT || 3000);
 
 app.use(bodyParser.json());
@@ -68,50 +61,10 @@ var upload = multer({
     
     filename: function (req, file, cb) {
       cb(null, file.originalname);
-      /*
-      file.uploadedFile = {
-        //name: req.params.filename,
-        //ext: file.mimetype.split('/')[1]
-        //ext: file.originalname.split('.')[1]
-      };
-      */
-      //cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
     }
-    /*
-    filename: function (req, file, cb) {
-      
-      file.uploadedFile = {
-        name: req.params.filename,
-        ext: file.mimetype.split('/')[1]
-      };
-      
-      cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-      
-      //cb(null, file.params.filename + '.jpg');
-    }
-    */
   })
-  
 });
 
-//app.use(formidable(opts));
-
-//app.use(static(path.join(__dirname, 'public')));
-//app.use(express.static(path.join(__dirname, 'public')));
-//app.set('view engine', 'jade')
-//app.set('views', './views')
-
-
-/*
-app.get('/question', function (req, res) {
-    Quest.find({}).sort({date:-1}).exec(function(err, rawContents){
-      // db에서 날짜 순으로 데이터들을 가져옴
-       if(err) throw err;
-       res.render('question.jade', {title: "Board", contents: rawContents}); 
-       // board.ejs의 title변수엔 “Board”를, contents변수엔 db 검색 결과 json 데이터를 저장해줌.
-    });
-});
-*/
 app.get('/signup', function(req, res){
   res.send('hello world!');
 });
@@ -176,10 +129,6 @@ app.post('/signup_test', function (req, res){
     
   user.save(function(err){
     if (err) console.log(err);
-    //var result = {};
-    //result['upload_result'] = '111';
-    //res.json(result);
-    //res.end();
     res.send('{"code":1, "msg": "successed"}');
   });
 });
@@ -315,16 +264,7 @@ app.post('/allProfile', function(req, res){
     } else if(rawContent == null){
       res.send('failed');
     } else {
-      /*
-      var result = {};
-      var user_mentor = rawContent.user_mentor;
-      var user_mentee = rawContent.user_mentee;
-      result['user_mentor'] = user_mentor;
-      result['user_mentee'] = user_mentee;
-      res.json(result);
-      */
       res.send(rawContent);
-      //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
   });
@@ -340,16 +280,7 @@ app.post('/showProfile', function(req, res){
     } else if(rawContent == null){
       res.send('failed');
     } else {
-      /*
-      var result = {};
-      var user_mentor = rawContent.user_mentor;
-      var user_mentee = rawContent.user_mentee;
-      result['user_mentor'] = user_mentor;
-      result['user_mentee'] = user_mentee;
-      res.json(result);
-      */
       res.send(rawContent);
-      //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
   });
@@ -400,10 +331,7 @@ app.post('/likeYou2', function(req, res){
         console.log(output);
         if(!output.n) res.send('{"code":-1, "msg": "failed"}');
       });
-
-      //res.send('{"code":1, "msg": "successed"}');
     }
-    //res.end();
   });
   User.findOne({user_id:loving_id}, function(err, rawContent){
     if (err) {
@@ -458,44 +386,9 @@ app.post('/likeYouList2', function(req, res){
     } else if(rawContent == null){
       res.send('failed');
     } else {
-        /*
-        var result = {};
-        var user_mentor = rawContent.user_mentor;
-        var user_mentee = rawContent.user_mentee;
-        result['user_mentor'] = user_mentor;
-        result['user_mentee'] = user_mentee;
-        res.json(result);
-        */
       res.send(rawContent);
-        //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
-  /*
-  var listSplit = userList.toString().split('$');
-  for(var i in listSplit){
-    User.findOne({user_id:listSplit[i]}, function(err, rawContent){
-      if (err) {
-        res.send('failed');
-      } else if(rawContent == null){
-        res.send('failed');
-      } else {
-
-        
-        var User = {};
-        User['user_id'] = rawContent.user_id;
-        User['user_major'] = rawContent.user_major;
-        User['user_grade'] = rawContent.user_grade;
-        User['user_age'] = rawContent.user_age;
-        
-        //result.push(User);
-        
-        result.push({user_id: rawContent.user_id, user_major: rawContent.user_major,
-        user_grade: rawContent.user_grade, user_age: rawContent.user_age});
-        
-      }
-    });
-  }
-  */
   });
 });
 
@@ -524,16 +417,7 @@ app.post('/matchedList2', function(req, res){
     } else if(rawContent == null){
       res.send('failed');
     } else {
-        /*
-        var result = {};
-        var user_mentor = rawContent.user_mentor;
-        var user_mentee = rawContent.user_mentee;
-        result['user_mentor'] = user_mentor;
-        result['user_mentee'] = user_mentee;
-        res.json(result);
-        */
       res.send(rawContent);
-        //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
   });
@@ -549,16 +433,7 @@ app.post('/getlm', function(req, res){
     } else if(rawContent == null){
       res.send('{"mentor":-1, "mentee":-1}');
     } else {
-      /*
-      var result = {};
-      var user_mentor = rawContent.user_mentor;
-      var user_mentee = rawContent.user_mentee;
-      result['user_mentor'] = user_mentor;
-      result['user_mentee'] = user_mentee;
-      res.json(result);
-      */
       res.send('{"user_loved":"' + rawContent.user_loved + '", ' + '"user_matched": "' + rawContent.user_matched + '"}');
-      //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
   });
