@@ -593,7 +593,7 @@ app.post('/getlm', function(req, res){
       result['user_mentee'] = user_mentee;
       res.json(result);
       */
-      res.send('{"user_loved":"' + rawContent.user_loved + '", ' + '"user_loving": "' + rawContent.user_loving + '"}');
+      res.send('{"user_loved":"' + rawContent.user_loved + '", ' + '"user_matched": "' + rawContent.user_matched + '"}');
       //res.send('{"mentor":-1, "mentee":-1}');
     }
     res.end();
