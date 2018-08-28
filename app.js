@@ -436,6 +436,7 @@ app.post('/likeYou2', function(req, res){
         console.log(output);
         if(!output.n) res.send('{"code":-1, "msg": "failed"}');
       });
+
       //res.send('{"code":1, "msg": "successed"}');
     }
     //res.end();
@@ -452,10 +453,20 @@ app.post('/likeYou2', function(req, res){
         console.log(output);
         if(!output.n) res.send('{"code":-1, "msg": "failed"}');
       });
-      res.send('{"code":1, "msg": "successed"}');
     }
-    res.end();
   });
+  User.update({user_id: loved_id}, {$inc: {user_mentee: 1}}, function(err, output){
+    if(err) res.send('{"code":-1, "msg": "failed"}');
+    console.log(output);
+    if(!output.n) res.send('{"code":-1, "msg": "failed"}');
+  });
+  User.update({user_id: loving_id}, {$inc: {user_mentor: 1}}, function(err, output){
+    if(err) res.send('{"code":-1, "msg": "failed"}');
+    console.log(output);
+    if(!output.n) res.send('{"code":-1, "msg": "failed"}');
+  });
+  res.send('{"code":1, "msg": "successed"}');
+  res.end();
 });
 
 app.post('/likeYouList', function(req, res){
