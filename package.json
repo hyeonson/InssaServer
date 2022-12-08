@@ -18,7 +18,7 @@
   "homepage": "https://github.com/hyeonsoobak/InssaServer#readme",
   "dependencies": {
     "deffered": "0.0.4",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-formidable": "^1.0.0",
     "express-split": "^0.1.2",
     "mongoose": "^5.2.7",
